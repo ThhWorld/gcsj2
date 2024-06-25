@@ -1,4 +1,4 @@
-package com.example.file_manager;
+package com.file_manager;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

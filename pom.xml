@@ -68,7 +68,7 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <version>${spring-boot.version}</version>
                 <configuration>
-                    <mainClass>com.example.file_manager.FileManagerApplication</mainClass>
+                    <mainClass>com.file_manager.FileManagerApplication</mainClass>
                     <skip>true</skip>
                 </configuration>
                 <executions>

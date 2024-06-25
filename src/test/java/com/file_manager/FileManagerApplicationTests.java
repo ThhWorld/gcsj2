@@ -1,4 +1,4 @@
-package com.example.file_manager;
+package com.file_manager;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
