@@ -1,4 +1,4 @@
-package com.sample;
+package com.file_manager.pojo;
 
 
 public class File {
