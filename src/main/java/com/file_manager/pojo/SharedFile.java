@@ -1,7 +1,7 @@
-package com.sample;
+package com.file_manager.pojo;
 
 
-public class File {
+public class SharedFile {
 
   private long id;
   private long useId;

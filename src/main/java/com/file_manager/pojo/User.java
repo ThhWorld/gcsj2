@@ -1,4 +1,4 @@
-package com.file_manager.pojo;
+package com.sample;
 
 
 public class User {
@@ -7,7 +7,6 @@ public class User {
   private String account;
   private String password;
   private String userName;
-  private String name;
   private String phoneNumber;
   private String email;
   private long sex;
@@ -46,15 +45,6 @@ public class User {
 
   public void setUserName(String userName) {
     this.userName = userName;
-  }
-
-
-  public String getName() {
-    return name;
-  }
-
-  public void setName(String name) {
-    this.name = name;
   }
 
 
