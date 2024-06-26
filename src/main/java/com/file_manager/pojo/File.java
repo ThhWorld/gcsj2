@@ -1,0 +1,87 @@
+package com.file_manager.pojo;
+
+
+public class File {
+
+  private long id;
+  private long useId;
+  private String filePath;
+  private java.sql.Date createTime;
+  private java.sql.Date uploadTime;
+  private String fileName;
+  private long isShare;
+  private long isDeleted;
+
+
+  public long getId() {
+    return id;
+  }
+
+  public void setId(long id) {
+    this.id = id;
+  }
+
+
+  public long getUseId() {
+    return useId;
+  }
+
+  public void setUseId(long useId) {
+    this.useId = useId;
+  }
+
+
+  public String getFilePath() {
+    return filePath;
+  }
+
+  public void setFilePath(String filePath) {
+    this.filePath = filePath;
+  }
+
+
+  public java.sql.Date getCreateTime() {
+    return createTime;
+  }
+
+  public void setCreateTime(java.sql.Date createTime) {
+    this.createTime = createTime;
+  }
+
+
+  public java.sql.Date getUploadTime() {
+    return uploadTime;
+  }
+
+  public void setUploadTime(java.sql.Date uploadTime) {
+    this.uploadTime = uploadTime;
+  }
+
+
+  public String getFileName() {
+    return fileName;
+  }
+
+  public void setFileName(String fileName) {
+    this.fileName = fileName;
+  }
+
+
+  public long getIsShare() {
+    return isShare;
+  }
+
+  public void setIsShare(long isShare) {
+    this.isShare = isShare;
+  }
+
+
+  public long getIsDeleted() {
+    return isDeleted;
+  }
+
+  public void setIsDeleted(long isDeleted) {
+    this.isDeleted = isDeleted;
+  }
+
+}
