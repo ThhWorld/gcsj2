@@ -23,9 +23,18 @@ public class AdminService {
         return adminMapper.searchAllUser();
     }
 
-    public boolean deleteUser(int id) {
-        if (adminMapper.deleteUser(id) > 0) {
-            return true;
+    public boolean deleteUser(int id) throws IOException {
+        List<String> paths=adminMapper.findLocalPaths(id);
+        for (String path : paths) {
+            java.io.File deleteFile = new java.io.File(path);
+            if (deleteFile.exists() == true) {
+                FileUtils.forceDelete(deleteFile);
+            }
+        }
+        if(adminMapper.deleteFiles(id)>0){
+            if (adminMapper.deleteUser(id) > 0) {
+                return true;
+            }
         }
         return false;
     }
