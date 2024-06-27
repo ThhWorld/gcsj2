@@ -6,10 +6,14 @@ import com.file_manager.mapper.FIleMapper;
 import com.file_manager.pojo.File;
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.List;
@@ -47,5 +51,17 @@ public class FileService {
         file.transferTo(new java.io.File(localPath));
         fIleMapper.Upload(result);
         return result;
+    }
+
+    public ResponseEntity<byte[]> Download(int id) throws IOException {
+        File file= fIleMapper.Download(id);
+        ResponseEntity.BodyBuilder builder = ResponseEntity.ok();
+        builder.contentType(MediaType.APPLICATION_OCTET_STREAM);
+        String fileName = file.getFileName();
+        fileName = URLEncoder.encode(fileName,"UTF-8");
+        builder.header("Access-Control-Expose-Headers", "Content-Disposition");
+        builder.header("Content-Disposition","attachment;filename*=UTF-8''"+fileName);
+        ResponseEntity <byte[]> responseEntity=builder.body(FileUtils.readFileToByteArray(new java.io.File(file.getLocalPath())));
+        return responseEntity;
     }
 }

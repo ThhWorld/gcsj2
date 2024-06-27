@@ -1,10 +1,7 @@
 package com.file_manager.mapper;
 
-import org.apache.ibatis.annotations.Insert;
+import org.apache.ibatis.annotations.*;
 
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
 import org.springframework.stereotype.Controller;
 import com.file_manager.pojo.File;
 
@@ -17,4 +14,7 @@ public interface FIleMapper {
     int Upload(File file);
     @Select("select file_name from file where file_name like concat(#{fileName},'%') and use_id=#{useId}")
     List<String> isExist(@Param("fileName") String fileName,@Param("useId") int useId);
+    @Select("select * from file where id=#{id}")
+    @Options(useGeneratedKeys = true,keyProperty = "id",keyColumn = "id")
+    File Download(int id);
 }
