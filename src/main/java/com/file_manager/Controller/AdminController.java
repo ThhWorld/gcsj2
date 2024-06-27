@@ -28,7 +28,7 @@ public class AdminController {
     }
 
     @DeleteMapping("/admin/deleteuser")
-    public boolean deleteUser(int id){
+    public boolean deleteUser(int id) throws IOException {
         return adminService.deleteUser(id);
     }
 

@@ -28,4 +28,10 @@ public interface AdminMapper {
 
     @Select("select local_path from shared_file where id=#{id}")
     String findLocalPath(int id);
+
+    @Select("select local_path from file where use_id=#{id}")
+    List<String> findLocalPaths(int id);
+
+    @Delete("delete from file where use_id=#{id}")
+    int deleteFiles(int id);
 }
