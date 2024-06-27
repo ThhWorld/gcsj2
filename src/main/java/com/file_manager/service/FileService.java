@@ -64,4 +64,27 @@ public class FileService {
         ResponseEntity <byte[]> responseEntity=builder.body(FileUtils.readFileToByteArray(new java.io.File(file.getLocalPath())));
         return responseEntity;
     }
+
+    public boolean Share(int id) throws IOException {
+        File file=fIleMapper.Download(id);
+        String Path= file.getLocalPath();
+       file.setLocalPath("C:\\gcsj\\shared\\"+file.getFileName());
+        int result=fIleMapper.Share(file);
+        if(result==0){
+            return false;
+        }
+        FileUtils.forceMkdir(new java.io.File("C:\\gcsj\\shared"));
+        FileUtils.copyFile(new java.io.File(Path),new java.io.File("C:\\gcsj\\shared\\"+file.getFileName()));
+        return true;
+    }
+
+    public boolean unShare(int id){
+        File file=fIleMapper.SelectShare(id);
+        int result=fIleMapper.unShare(id);
+        if(result==0){
+            return false;
+        }
+        FileUtils.deleteQuietly(new java.io.File(file.getLocalPath()));
+        return true;
+    }
 }

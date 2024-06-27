@@ -17,4 +17,13 @@ public interface FIleMapper {
     @Select("select * from file where id=#{id}")
     @Options(useGeneratedKeys = true,keyProperty = "id",keyColumn = "id")
     File Download(int id);
+
+    @Insert("INSERT INTO shared_file( id,use_id, file_path, create_time, upload_time, file_name, is_deleted, local_path) VALUES(#{id},#{useId},#{filePath},#{createTime},#{uploadTime},#{fileName},#{isDeleted},#{localPath})")
+    int Share(File file);
+
+    @Delete("delete from shared_file where id=#{id}")
+    int unShare(int id);
+
+    @Select("SELECT * from shared_file where id=#{id}")
+    File SelectShare(int id);
 }
