@@ -5,14 +5,14 @@ import com.file_manager.pojo.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+
 @Service("userService")
 public class UserService {
     @Autowired
     private UserMapper userMapper;
 
     public User login(String account, String password) {
-        User user = userMapper.findByAccountAndPassword(account, password);
-        return user ;
+        return userMapper.findByAccountAndPassword(account, password);
     }
 
     public boolean register(String account, String password, String userName, String phoneNumber, String email, Integer sex) {
@@ -53,8 +53,7 @@ public class UserService {
             return false;
         }
 
-        user.setPassword(password);
-        userMapper.updateUser(user);
+        userMapper.updatePassword(id,password);
         return true;
     }
 

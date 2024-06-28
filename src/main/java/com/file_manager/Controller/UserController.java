@@ -3,8 +3,10 @@ package com.file_manager.Controller;
 
 import com.file_manager.pojo.User;
 import com.file_manager.service.UserService;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -15,8 +17,8 @@ public class UserController {
     @Autowired
     UserService userService;
 
-    @GetMapping("/login")
-    public Map<String, Object>  login(@RequestParam String account, @RequestParam String password) {
+    @PostMapping("/login")
+    public Map<String, Object>  login (@Param("account") String account,@Param("password") String password) {
         User user = userService.login(account, password);
         Map<String, Object> response = new HashMap<>();
 
@@ -25,7 +27,7 @@ public class UserController {
             response.put("user", user);
         } else {
             response.put("success", false);
-            response.put("message", "Login failed"); // 可以添加失败信息
+            response.put("user", user);
         }
 
         return response;
