@@ -18,7 +18,7 @@ public class UserController {
     UserService userService;
 
     @PostMapping("/login")
-    public Map<String, Object>  login (@Param("account") String account,@Param("password") String password) {
+    public Map<String, Object>  login (@RequestParam("account") String account,@RequestParam("password") String password) {
         User user = userService.login(account, password);
         Map<String, Object> response = new HashMap<>();
 
