@@ -1,10 +1,11 @@
 package com.file_manager.service;
 
 
-import ch.qos.logback.core.util.FileUtil;
 import com.file_manager.mapper.FIleMapper;
 import com.file_manager.pojo.File;
+import com.file_manager.pojo.SharedFile;
 import org.apache.commons.io.FileUtils;
+import org.apache.ibatis.annotations.Delete;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -12,7 +13,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.sql.Date;
 import java.time.LocalDate;
@@ -87,4 +87,39 @@ public class FileService {
         FileUtils.deleteQuietly(new java.io.File(file.getLocalPath()));
         return true;
     }
+
+    public boolean reName (int id,String fileName ){
+        int result=fIleMapper.reName(id,fileName);
+        if(result==0){
+            return false;
+        }
+        return true;
+    }
+
+    public List<File> searchFile (int useid){
+        return fIleMapper.rearchFile(useid);
+    }
+
+    public List<SharedFile> searchSharedFile(){
+        return fIleMapper.rearchSharedFile();
+    }
+
+    public boolean toBin(int id){
+        if (fIleMapper.toBin(id) > 0) {
+            return true;
+        }
+        return false;
+    }
+    public boolean deleteFile(int id) throws IOException {
+        String path = fIleMapper.findLocalPath(id);
+        if (fIleMapper.deleteFile(id) > 0) {
+            java.io.File deleteFile = new java.io.File(path);
+            if (deleteFile.exists() == true) {
+                FileUtils.forceDelete(deleteFile);
+            }
+            return true;
+        }
+        return false;
+    }
+
 }
