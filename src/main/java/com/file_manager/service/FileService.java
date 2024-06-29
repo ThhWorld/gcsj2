@@ -5,7 +5,6 @@ import com.file_manager.mapper.FIleMapper;
 import com.file_manager.pojo.File;
 import com.file_manager.pojo.SharedFile;
 import org.apache.commons.io.FileUtils;
-import org.apache.ibatis.annotations.Delete;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;

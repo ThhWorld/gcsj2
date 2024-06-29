@@ -10,11 +10,6 @@ const router = createRouter({
       component: HomeView
     },
     {
-      path: '/manage',
-
-      component: () => import('../views/ManageView.vue')
-    },
-    {
       path: '/recall',
 
       component: () => import('../views/RecallView.vue')
