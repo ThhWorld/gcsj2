@@ -1,14 +1,20 @@
-import './assets/main.css'
-
-import { createApp } from 'vue'
+import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
-import ElementPlus from 'element-plus'
-import 'element-plus/dist/index.css'
+import store from './store'
+import ElementUI from 'element-ui';
+import axios from 'axios';
+import 'element-ui/lib/theme-chalk/index.css';
 
-const app = createApp(App)
-app.use(ElementPlus)
+Vue.config.productionTip = false
 
-app.use(router)
+Vue.prototype.$axios = axios
+axios.defaults.baseURL = '/api'; //后端地址
+//注册插件
+Vue.use(ElementUI)
 
-app.mount('#app')
+new Vue({
+    router,
+    store,
+    render: h => h(App)
+}).$mount('#app')
