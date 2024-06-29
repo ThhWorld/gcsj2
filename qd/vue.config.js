@@ -6,7 +6,7 @@ module.exports = defineConfig({
     // 本地配置
     proxy: {
       '/api': {
-        target: "http://localhost:8088",//实际访问的ip
+        target: "http://localhost:8080",//实际访问的ip
         changeOrigin: true,
         pathRewrite: {
           '^/api': "" //实际访问的ip

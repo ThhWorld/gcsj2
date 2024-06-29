@@ -2,7 +2,11 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Login from '../views/Login.vue'
 import Register from '../views/Register.vue'
-import Index from '../views/Index.vue'
+import recycleBin from "@/views/RecycleBin.vue";
+import adminPage from "@/views/adminPage.vue";
+import index from "@/views/Index.vue";
+import MainPage from "@/views/MainPage.vue";
+import index from "vuex";
 
 Vue.use(VueRouter)
 
@@ -24,8 +28,23 @@ const routes = [
   {
     path: '/index',
     name: 'Index',
-    component: Index
+    component: index
   },
+  {
+    path: '/adminPage',
+    name: 'adminPage',
+    component: adminPage
+  },
+  {
+    path: '/recyclebin',
+    name: 'RecycleBin',
+    component: recycleBin
+  },
+  {
+    path:'/MainPage',
+    name:'MainPage',
+    component: MainPage
+  }
 ]
 
 const router = new VueRouter({
