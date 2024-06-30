@@ -1,6 +1,7 @@
 package com.file_manager.Controller;
 
 
+import com.file_manager.pojo.Login;
 import com.file_manager.pojo.User;
 import com.file_manager.service.UserService;
 import org.apache.ibatis.annotations.Param;
@@ -19,8 +20,8 @@ public class UserController {
     UserService userService;
 
     @PostMapping("/login")
-    public Map<String, Object>  login (@RequestParam("account") String account,@RequestParam("password") String password) {
-        User user = userService.login(account, password);
+    public Map<String, Object>  login (@RequestBody Login login) {
+        User user = userService.login(login.getAccount(), login.getPassword());
         Map<String, Object> response = new HashMap<>();
 
         if (user != null) {
@@ -35,10 +36,8 @@ public class UserController {
     }
 
     @PostMapping("/register")
-    public boolean register(@RequestParam String account, @RequestParam String password,
-                            @RequestParam String userName, @RequestParam String phoneNumber,
-                            @RequestParam String email, @RequestParam Integer sex){
-        return userService.register(account,password,userName,phoneNumber,email,sex);
+    public boolean register(@RequestBody User user){
+        return userService.register(user.getAccount(), user.getPassword(), user.getUserName(), user.getPhoneNumber(), user.getEmail(),user.getSex());
     }
 
     @PutMapping("/userinforchange")

@@ -15,7 +15,7 @@ public class UserService {
         return userMapper.findByAccountAndPassword(account, password);
     }
 
-    public boolean register(String account, String password, String userName, String phoneNumber, String email, Integer sex) {
+    public boolean register(String account, String password, String userName, String phoneNumber, String email, long sex) {
         User existingUser = userMapper.findByAccount(account);
         if (existingUser != null) {
             return false;
