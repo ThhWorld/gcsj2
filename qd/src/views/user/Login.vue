@@ -57,10 +57,10 @@ export default {
             password: this.form.password
           })
               .then(response => {
-                if(response.data.code===20000){
+                if(response.data.code===200){
                   //使用vue-router 路由到指定页面，该方式称之为编程式导航
                   this.$router.push({
-                    path:"/index",
+                    path:"/MainPage",
                     query:{account:response.data.data.account}
                   });
                   console.log(response.data);

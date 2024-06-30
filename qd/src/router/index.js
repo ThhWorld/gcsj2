@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 import Login from '../views/user/Login.vue'
 import Register from '../views/Register.vue'
 import Index from '../views/Index.vue'
+import MainPage from "@/views/MainPage";
 
 Vue.use(VueRouter)
 
@@ -25,6 +26,11 @@ const routes = [
     path: '/index',
     name: 'Index',
     component: Index
+  },
+  {
+    path:'/MainPage',
+    name:'MainPage',
+    component: MainPage
   },
 ]
 
