@@ -34,16 +34,33 @@ export default {
   },
   methods: {
     login() {
-      // 登录方法代码保持不变...
+      const config = {
+        method: 'post',
+        url: `/user/login?account=${this.user.account}&password=${this.user.password}`,
+        headers: {
+          'User-Agent': 'Apifox/1.0.0 (https://apifox.com)'
+        }
+      };
+
+      axios(config)
+          .then(response => {
+            console.log(JSON.stringify(response.data));
+            this.message = 'Login successful!';
+            router.push({name:mainPage});
+            // 这里可以添加导航到其他页面的逻辑
+          })
+          .catch(error => {
+            console.log(error);
+            this.message = 'Login failed. Please check your account and password.';
+          });
     },
-    // 添加方法来处理注册按钮的点击事件
     goToRegister() {
-      // 使用Vue Router的push方法导航到注册页面
       router.push({ name: 'register' });
     }
   }
 };
 </script>
+
 <style scoped>
 div {
   max-width: 300px;
