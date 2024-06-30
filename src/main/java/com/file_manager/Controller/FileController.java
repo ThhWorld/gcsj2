@@ -1,7 +1,6 @@
 package com.file_manager.Controller;
 
 import com.file_manager.pojo.SharedFile;
-import com.file_manager.pojo.UpFile;
 import com.file_manager.service.FileService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -18,8 +17,8 @@ public class FileController {
     FileService fileService;
     @PostMapping("/user/fileupload")
     @CrossOrigin(origins = "*")
-    public File Upload(@RequestBody UpFile upFile) throws IOException {
-        return fileService.Upload(upFile.getFile(), upFile.getUseId(), upFile.getFilePath());
+    public File Upload(MultipartFile file, int useId, String filePath) throws IOException {
+        return fileService.Upload(file,useId,filePath);
     }
 
     @GetMapping("/user/download")
