@@ -26,9 +26,9 @@
         <label for="sex">Sex:</label>
         <select id="sex" v-model="user.sex" required>
           <option value="">Please select one</option>
-          <option value="male">Male</option>
-          <option value="female">Female</option>
-          <option value="other">Other</option>
+          <option value="0">Male</option>
+          <option value="1">Female</option>
+          <option value="2">Other</option>
         </select>
       </div>
       <button type="submit">Register</button>
@@ -58,32 +58,34 @@ export default {
     register() {
       var config = {
         method: 'post',
-        url: '/user/register',
+        url: 'http://localhost:8081/user/register',
         headers: {
-          'User-Agent': 'Apifox/1.0.0 (https://apifox.com)'
+          'Content-Type': 'application/json'
         },
-        data: {
+        data: JSON.stringify({
           account: this.user.account,
           password: this.user.password,
           userName: this.user.userName,
           phoneNumber: this.user.phoneNumber,
           email: this.user.email,
-          sex: this.user.sex
-        }
+          sex: parseInt(this.user.sex)  // 将性别转换为整数
+        })
       };
 
       axios(config)
           .then(response => {
-            // 假设服务器返回一个状态字段status，当注册成功时为'success'
-            if (response.data.status === 'success') {
+            if (response.data == true) {
               this.message = '注册成功';
+              this.message = '注册成功';
+              setTimeout(() => {
+                this.$router.push({ path: '/login' });
+              }, 2000); // 2秒后跳转到登录界面
             } else {
-              this.message = '注册失败: ' + response.data.message;
+              this.message = '注册失败';
             }
           })
           .catch(error => {
-            console.log(error);
-            this.message = '注册失败';
+            console.log("注册时发生错误:", error);
           });
     }
   }

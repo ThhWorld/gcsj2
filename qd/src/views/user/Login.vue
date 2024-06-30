@@ -57,19 +57,28 @@ export default {
             password: this.form.password
           })
               .then(response => {
-                if(response.data.code===200){
-                  //使用vue-router 路由到指定页面，该方式称之为编程式导航
+                if(response.data.success){
+                  const user = response.data.user;
                   this.$router.push({
-                    path:"/MainPage",
-                    query:{account:response.data.data.account}
+                    path: "/MainPage",
+                    query: {
+                      id: user.id,
+                      account: user.account,
+                      userName: user.userName,
+                      phoneNumber: user.phoneNumber,
+                      email: user.email,
+                      sex: user.sex
+                    }
                   });
-                  console.log(response.data);
-                  this.$message.success(response.data.msg)
-                }else{
-                  console.log(response.data);
-                  this.$message.error(this.form.account+response.data.msg)
+                  this.$message.success("登录成功");
+                } else {
+                  this.$message.error(this.form.account + "登录失败");
                 }
               })
+              .catch(error => {
+                console.error("登录时发生错误:", error);
+                this.$message.error("登录失败");
+              });
         } else {
           this.dialogVisible = true;
           return false;
