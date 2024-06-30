@@ -9,7 +9,7 @@ import 'element-ui/lib/theme-chalk/index.css';
 Vue.config.productionTip = false
 
 Vue.prototype.$axios = axios
-axios.defaults.baseURL = '/'; //后端地址
+axios.defaults.baseURL = 'http://localhost:8081'; //后端地址
 //注册插件
 Vue.use(ElementUI)
 
