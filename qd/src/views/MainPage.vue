@@ -1,12 +1,14 @@
 <template>
   <div class="main-page">
     <nav class="sidebar">
-      <p>用户名: {{ userName }}</p>
-      <p>电话号码: {{ phoneNumber }}</p>
-      <p>邮箱: {{ email }}</p>
-      <p>ID: {{ id }}</p>
-      <button @click="goToRecycleBin">回收站</button>
-      <button @click="goToShareCenter">分享中心</button>
+      <div class="user-info">
+        <p>用户名: {{ userName }}</p>
+        <p>电话号码: {{ phoneNumber }}</p>
+        <p>邮箱: {{ email }}</p>
+        <p>ID: {{ id }}</p>
+      </div>
+      <button @click="navigateToRecycleBin">回收站</button>
+      <button @click="navigateToShareCenter">前往分享中心</button>
       <button @click="logout">退出</button> <!-- 添加退出按钮 -->
     </nav>
     <div class="content">
@@ -41,11 +43,7 @@ export default {
       phoneNumber: '',
       email: '',
       id: '',
-      files: [
-        { id: 1, name: '文件1.txt', shared: false },
-        { id: 2, name: '文件2.txt', shared: true },
-        // 其他文件示例
-      ],
+      files: [],
       selectedFiles: []
     };
   },
@@ -75,11 +73,11 @@ export default {
           }
         });
         if (response.status === 200) {
-          this.files = response.data.map(file => ({
+          // 只显示未被删除的文件（isDeleted != 1）
+          this.files = response.data.filter(file => file.isDeleted !== 1).map(file => ({
             id: file.id,
             name: file.fileName,
             uploadTime: file.uploadTime,
-            shared: false // Assuming the `shared` attribute is not provided by the backend
           }));
         } else {
           alert('获取文件列表失败');
@@ -92,11 +90,17 @@ export default {
     triggerFileInput() {
       this.$refs.fileInput.click();
     },
-    goToRecycleBin() {
-      this.$router.push({ name: 'RecycleBin' }); // 跳转到回收站页面
+    navigateToRecycleBin() {
+      const userId = this.getUserId(); // 获取用户ID的方法
+      this.$router.push({ name: 'RecycleBin', query: { id: this.id } });
     },
-    goToShareCenter() {
-      this.$router.push({ name: 'ShareCenter' }); // 跳转到分享中心页面
+    navigateToShareCenter() {
+      const userId = this.getUserId(); // 获取用户ID的方法
+      this.$router.push({ name: 'ShareCenter', query: { id: this.id } });
+    },
+    getUserId() {
+      // 返回当前用户ID的逻辑
+      return this.id; // 示例用户ID
     },
     logout() {
       // 清除本地存储中的用户信息
@@ -256,33 +260,50 @@ export default {
 <style scoped>
 .main-page {
   display: flex;
+  height: 100vh;
 }
 
 .sidebar {
-  width: 200px;
-  background-color: #f0f0f0;
+  width: 250px;
+  background-color: #3a3f51;
+  color: white;
   padding: 20px;
 }
 
-.sidebar p {
+.user-info p {
   margin: 10px 0;
 }
 
-.sidebar button {
+button {
   display: block;
   width: 100%;
   margin: 10px 0;
+  padding: 10px;
+  border: none;
+  background-color: #3a3f51;
+  color: white;
+  cursor: pointer;
+  text-align: left;
+}
+
+button:hover {
+  background-color: #575d6b;
 }
 
 .content {
-  flex: 1;
+  flex-grow: 1;
   padding: 20px;
 }
 
 .toolbar {
   display: flex;
-  justify-content: space-between;
+  gap: 10px;
   margin-bottom: 20px;
+}
+
+.selected-toolbar {
+  display: flex;
+  gap: 10px;
 }
 
 .file-list {
@@ -293,6 +314,17 @@ export default {
 .file-list li {
   display: flex;
   align-items: center;
-  margin: 10px 0;
+  gap: 10px;
+  padding: 10px;
+  border-bottom: 1px solid #e0e0e0;
 }
+
+.file-list li:hover {
+  background-color: #f5f5f5;
+}
+
+.file-list input[type="checkbox"] {
+  margin: 0;
+}
+
 </style>

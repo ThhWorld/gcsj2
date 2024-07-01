@@ -5,13 +5,13 @@
       <button @click="refreshFiles">刷新</button>
       <div v-if="selectedFiles.length > 0" class="selected-toolbar">
         <button @click="downloadFiles">下载</button>
-        <button v-if="selectedFiles.every(file => file.use_id === userId)" @click="unshareFiles">取消分享</button>
+        <button v-if="selectedFiles.every(file => file.useId == userId)" @click="unshareFiles">取消分享</button>
       </div>
     </div>
     <ul class="file-list">
       <li v-for="file in sharedFiles" :key="file.id">
         <input type="checkbox" :value="file" v-model="selectedFiles">
-        <span>{{ file.fileName }} (上传信息: {{ file.uploadTime }}, 所属用户: {{ file.useId }})</span>
+        <span>{{ file.fileName }} (上传时间: {{ file.uploadTime }}, 所属用户: {{ file.useId }})</span>
       </li>
     </ul>
   </div>
@@ -26,18 +26,25 @@ export default {
     return {
       sharedFiles: [],
       selectedFiles: [],
-      userId: this.$route.query.id // 接收从MainPage传递的用户ID
+      userId: null // 初始化用户ID
     };
   },
   created() {
+    this.userId = this.$route.query.id; // 从路由参数中获取用户ID
     this.fetchSharedFiles();
+  },
+  watch: {
+    '$route.query.id'(newId) {
+      this.userId = newId;
+      this.fetchSharedFiles(); // 当用户ID变化时重新获取文件列表
+    }
   },
   methods: {
     async fetchSharedFiles() {
       try {
         const response = await axios.get('http://localhost:8081/user/sharedfile', {
           headers: {
-
+            // Include headers if needed
           }
         });
         if (response.status === 200) {
@@ -56,16 +63,21 @@ export default {
       }
     },
     async downloadFiles() {
-      if (this.selectedFiles.length > 0) {
+      if (this.selectedFiles.length === 1) {
         const fileId = this.selectedFiles[0].id;
+        const fileName = this.selectedFiles[0].fileName;
+
+
         try {
-          const response = await axios.get(`http://localhost:8081/user/download?id=${fileId}`, {
+          const response = await axios.get(`http://localhost:8081/user/Sharedownload?id=${fileId}`, {
             responseType: 'blob' // 确保接收到的是一个blob对象
           });
+
+          // 创建一个URL，指向返回的文件数据
           const url = window.URL.createObjectURL(new Blob([response.data]));
           const link = document.createElement('a');
           link.href = url;
-          link.setAttribute('download', this.selectedFiles[0].fileName);
+          link.setAttribute('download', fileName);
           document.body.appendChild(link);
           link.click();
           link.remove();
@@ -74,7 +86,7 @@ export default {
           alert('文件下载失败');
         }
       } else {
-        alert('请选择至少一个文件进行下载');
+        alert('请选择一个文件进行下载');
       }
     },
     async unshareFiles() {
@@ -83,7 +95,7 @@ export default {
         try {
           const response = await axios.delete(`http://localhost:8081/user/unshare?id=${fileId}`, {
             headers: {
-
+              // Include headers if needed
             }
           });
           if (response.data === true) {
@@ -112,12 +124,37 @@ export default {
 <style scoped>
 .share-center {
   padding: 20px;
+  font-family: Arial, sans-serif;
+}
+
+h1 {
+  text-align: center;
+  color: #333;
 }
 
 .toolbar {
   display: flex;
   justify-content: space-between;
+  align-items: center;
   margin-bottom: 20px;
+}
+
+button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: background-color 0.3s;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+.selected-toolbar button {
+  margin-left: 10px;
 }
 
 .file-list {
@@ -128,6 +165,18 @@ export default {
 .file-list li {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   margin: 10px 0;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.file-list li input[type="checkbox"] {
+  margin-right: 10px;
+}
+
+.file-list li span {
+  flex-grow: 1;
 }
 </style>
