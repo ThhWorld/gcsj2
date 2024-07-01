@@ -7,11 +7,13 @@
       <p>ID: {{ id }}</p>
       <button @click="goToRecycleBin">回收站</button>
       <button @click="goToShareCenter">分享中心</button>
+      <button @click="logout">退出</button> <!-- 添加退出按钮 -->
     </nav>
     <div class="content">
       <div class="toolbar">
         <input type="file" ref="fileInput" @change="uploadFiles" style="display: none;">
         <button @click="triggerFileInput">上传</button>
+        <button @click="refreshFiles">刷新</button> <!-- 添加刷新按钮 -->
         <div v-if="selectedFiles.length > 0" class="selected-toolbar">
           <button @click="downloadFiles">下载</button>
           <button @click="deleteFilesToBin">删除</button>
@@ -59,6 +61,9 @@ export default {
   },
 
   methods: {
+    refreshFiles() {
+      this.fetchUploadedFiles();
+    },
     async fetchUploadedFiles() {
       try {
         const response = await axios.get(`http://localhost:8081/user/flie`, {
@@ -92,6 +97,12 @@ export default {
     },
     goToShareCenter() {
       this.$router.push({ name: 'ShareCenter' }); // 跳转到分享中心页面
+    },
+    logout() {
+      // 清除本地存储中的用户信息
+      localStorage.removeItem('userToken');
+      // 重定向到登录页面
+      this.$router.push({ name: 'Login' });
     },
     async uploadFiles(event) {
       const files = event.target.files;

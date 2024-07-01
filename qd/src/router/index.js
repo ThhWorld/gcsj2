@@ -4,6 +4,7 @@ import Login from '../views/user/Login.vue'
 import Register from '../views/Register.vue'
 import Index from '../views/Index.vue'
 import MainPage from "@/views/MainPage";
+import ShareCenter from "@/views/ShareCenter.vue";
 
 Vue.use(VueRouter)
 
@@ -11,6 +12,11 @@ const routes = [
   {
     path: '/',
     redirect: '/login'
+  },
+  {
+    path: '/sharecenter',
+    name: 'ShareCenter',
+    component: ShareCenter
   },
   {
     path: '/login',
