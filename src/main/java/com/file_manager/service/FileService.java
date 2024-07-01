@@ -64,6 +64,18 @@ public class FileService {
         return responseEntity;
     }
 
+    public ResponseEntity<byte[]> ShareDownload(int id) throws IOException {
+        File file= fIleMapper.ShareDownload(id);
+        ResponseEntity.BodyBuilder builder = ResponseEntity.ok();
+        builder.contentType(MediaType.APPLICATION_OCTET_STREAM);
+        String fileName = file.getFileName();
+        fileName = URLEncoder.encode(fileName,"UTF-8");
+        builder.header("Access-Control-Expose-Headers", "Content-Disposition");
+        builder.header("Content-Disposition","attachment;filename*=UTF-8''"+fileName);
+        ResponseEntity <byte[]> responseEntity=builder.body(FileUtils.readFileToByteArray(new java.io.File(file.getLocalPath())));
+        return responseEntity;
+    }
+
     public boolean Share(int id) throws IOException {
         File file=fIleMapper.Download(id);
         String Path= file.getLocalPath();

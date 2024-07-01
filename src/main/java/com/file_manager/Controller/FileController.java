@@ -26,6 +26,11 @@ public class FileController {
         return fileService.Download(id);
     }
 
+    @GetMapping("/user/Sharedownload")
+    public ResponseEntity<byte[]> ShareDownload(int id) throws IOException {
+        return fileService.ShareDownload(id);
+    }
+
     @PutMapping("/user/share")
     public boolean Share(int id) throws IOException {
         return fileService.Share(id);
